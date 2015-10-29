@@ -1,6 +1,10 @@
+###################################################
+# Centos 6 with Nginx and php-fpm
+###################################################
+
 FROM centos:6
 
-MAINTAINER Beshoy Girgis <shoy@1ds.us>
+MAINTAINER afym
 
 # Set up ansible
 RUN yum clean all && \
@@ -22,14 +26,10 @@ RUN ln -sf /dev/stderr /var/log/nginx/error.log
 RUN ln -sf /dev/stderr /var/log/php-fpm/error.log
 RUN ln -sf /dev/stderr /var/log/php-fpm/www-error.log
 RUN ln -sf /dev/stderr /var/log/php-fpm/www-slow.log
+RUN service php-fpm start
 
 # expose ports
 EXPOSE 22 80 443
 
-# Add startup script
-ADD ./start.sh /start.sh
-RUN chmod 755 /start.sh
-
 # Execute start script
-CMD ["nginx", "-g", "daemon off;"]
-#CMD ["php-fpm"]
+CMD php-fpm & nginx -g 'daemon off;'
