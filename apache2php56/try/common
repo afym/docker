@@ -1,0 +1,89 @@
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+yum -y --enablerepo=remi,remi-php56 install httpd php php-common
+yum -y --enablerepo=remi,remi-php56 install php-pecl-apcu php-cli php-pear php-pdo php-mysqlnd php-pgsql php-pecl-mongo php-sqlite php-pecl-memcache php-pecl-memcached php-gd php-mbstring php-mcrypt php-xml
+
+# Configuration files
+
+/etc/httpd/conf/httpd.conf
+
+
+# Default Web Port
+ENV WEBPORT 80
+
+# Commands
+RUN yum -y update
+RUN yum -y update epel-release
+RUN yum clean all
+RUN yum -y --enablerepo=remi,remi-php56 install httpd php php-common
+RUN yum -y --enablerepo=remi,remi-php56 install php-pecl-apcu php-cli php-pear php-pdo php-mysqlnd php-pgsql php-pecl-mongo php-sqlite php-pecl-memcache php-pecl-memcached php-gd php-mbstring php-mcrypt php-xml
+
+EXPOSE $WEBPORT
+
+ENTRYPOINT ["/usr/sbin/httpd"]
+CMD ["-D", "FOREGROUND"]
+
+
+FROM centos:7
+MAINTAINER "you" <your@email.here>
+ENV container docker
+RUN yum -y swap -- remove fakesystemd -- install systemd systemd-libs
+RUN yum -y update; yum clean all; \
+(cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i ==
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+VOLUME [ "/sys/fs/cgroup" ]
+CMD ["/usr/sbin/init"]
+
+
+
+yum -y update
+yum -y install epel-release
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+yum clean all
+yum -y --enablerepo=remi,remi-php56 install httpd php php-common
+yum -y --enablerepo=remi,remi-php56 install php-pecl-apcu php-cli php-pear php-pdo php-mysqlnd php-pgsql php-pecl-mongo php-sqlite php-pecl-memcache php-pecl-memcached php-gd php-mbstring php-mcrypt php-xml
+
+# PHP 5.6 Packages
+http://rpms.famillecollet.com/enterprise/6/php56/x86_64/repoview/
+http://blog.remirepo.net/pages/PECL-extensions-RPM-status
+
+
+# Configuration apache
+/var/www/html
+/etc/httpd/conf/httpd.conf
+
+
+
+
+
+
+
+
+# Installing nginx 
+#RUN yum -y install nginx
+
+# Installing PHP
+#RUN yum -y --enablerepo=remi,remi-php56 install nginx php-fpm php-common
+
+# Installing supervisor
+#RUN yum install -y python-setuptools
+RUN easy_install pip
+RUN pip install supervisor
+
+
+# Adding the configuration file of the nginx
+ADD nginx.conf /etc/nginx/nginx.conf
+ADD default.conf /etc/nginx/conf.d/default.conf
+
+# Adding the configuration file of the Supervisor
+ADD supervisord.conf /etc/
+
+# Adding the default file
+ADD index.php /var/www/index.php

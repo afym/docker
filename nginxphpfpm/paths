@@ -1,0 +1,10 @@
+# Default nginx.conf file
+/etc/nginx/nginx.conf
+# www.conf is on :
+/etc/php-fpm.d/www.conf
+# html files are in
+/usr/share/nginx/html
+# PHP ini
+/etc/php.ini
+# Files /html
+404.html  50x.html  index.html  nginx-logo.png  poweredby.png

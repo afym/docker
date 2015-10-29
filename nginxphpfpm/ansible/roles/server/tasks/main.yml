@@ -1,0 +1,11 @@
+---
+# Set up the container
+
+# server
+- include: time.yml
+- include: packages.yml
+- include: composer.yml
+
+# serving
+- include: php.yml
+- include: application.yml

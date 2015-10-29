@@ -1,0 +1,16 @@
+---
+
+packages_standard: 
+  - nginx18
+  - php56w
+  - php56w-opcache
+  - php56w-fpm
+  - php56w-pecl-redis
+
+app_path: /usr/share/nginx/html
+site_domain: local.smile.pe
+admin_domain: local.admin.smile.pe
+api_domain: local.api.smile.pe
+nginx_time_out: 30
+nginx_worker_connections: 1024
+nginx_worker_processes: 1

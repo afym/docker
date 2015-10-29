@@ -1,0 +1,16 @@
+---
+# Install necessary packages
+- name: YUM | Install the remi-release rpm
+  yum:
+    name=https://mirror.webtatic.com/yum/el6/latest.rpm
+    state=present
+
+- name: Install standard packages
+  yum:
+    name={{ item }}
+    state=present
+    enablerepo=epel
+  with_items: packages_standard
+
+- name: Clean packages
+  command: yum clean all

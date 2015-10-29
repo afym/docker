@@ -1,0 +1,19 @@
+---
+# Building application configuration
+
+- name: Creates directory for site domain
+  file: 
+    state: directory 
+    path: "{{app_path}}/{{site_domain}}/public"
+    recurse: yes
+
+- name: Copy nginx.conf file for the application
+  template: src=nginx.conf dest=/etc/nginx/nginx.conf mode=644
+
+- name: Copy website.conf files to conf.d directory
+  template: src=website.conf dest=/etc/nginx/conf.d/website.conf mode=644
+
+- name: Adding default application dir
+  copy: 
+    src: index.php 
+    dest: "{{app_path}}/{{site_domain}}/public/index.php"
