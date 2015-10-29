@@ -8,9 +8,9 @@ packages_standard:
   - php56w-pecl-redis
 
 app_path: /usr/share/nginx/html
-site_domain: local.smile.pe
-admin_domain: local.admin.smile.pe
-api_domain: local.api.smile.pe
+site_domain: local.myapp.pe
+admin_domain: local.admin.myapp.pe
+api_domain: local.api.myapp.pe
 nginx_time_out: 30
 nginx_worker_connections: 1024
 nginx_worker_processes: 1
